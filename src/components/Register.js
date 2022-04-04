@@ -10,7 +10,6 @@ import {
   useColorMode,
   Heading,
   Text,
-  Link,
   FormControl,
   FormLabel,
   Input,
@@ -19,21 +18,22 @@ import {
   Button,
 } from "@chakra-ui/core";
 import { useState, useEffect } from "react";
+import {Link} from "react-router-dom"
 import axios from "axios";
 const VARIANT_COLOR = "teal";
 
-const Login = () => {
+const Register = () => {
   return (
     <ThemeProvider theme={theme}>
       <ColorModeProvider>
         <CSSReset />
-        <LoginArea />
+        <RegisterArea />
       </ColorModeProvider>
     </ThemeProvider>
   );
 };
 
-const LoginArea = () => {
+const RegisterArea = () => {
   return (
     <Flex minHeight="100vh" width="full" align="center" justifyContent="center">
       <Box
@@ -47,8 +47,8 @@ const LoginArea = () => {
       >
         <ThemeSelector />
         <Box p={4}>
-          <LoginHeader />
-          <LoginForm />
+          <RegisterHeader />
+          <RegisterForm />
         </Box>
       </Box>
     </Flex>
@@ -69,27 +69,30 @@ const ThemeSelector = () => {
   );
 };
 
-const LoginHeader = () => {
+const RegisterHeader = () => {
   return (
     <Box textAlign="center">
-      <Heading>Sign In to Your Account</Heading>
-      <Text>
-        Or <Link color={`${VARIANT_COLOR}.500`}>start your 14 days trial</Link>
-      </Text>
+      <Heading>Register to Enjoy</Heading>
     </Box>
   );
 };
 
-const LoginForm = () => {
-  const [valueEmail, setemailValue] = useState("");
-  const [valuePassword, setpasswordValue] = useState("");
+const RegisterForm = () => {
+  const [userName, setUserName] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+  const [confirmPassword, setconfirmPassword] = useState("");
   const [state, setState] = useState([]);
+
 
   //   useEffect(() => {
   //     axios
   //       .post(url, {
-  //         Email: valueEmail,
-  //         password: valuePassword,
+  //   Name:userName,
+  //         Email: Email,
+  //         Password: Password,
+  //   Confirm:confirmPassword
+
   //       })
   //       .then(() => {
   //         console.log("data sent to particular api successfuly");
@@ -103,40 +106,57 @@ const LoginForm = () => {
     <Box my={8} textAlign="left">
       <form>
         <FormControl>
-          <FormLabel>Email address <span style={{ color: "red" }}>*</span></FormLabel>
+          <FormLabel>
+            User Name <span style={{ color: "red" }}>*</span>
+          </FormLabel>
+          <Input
+            type="email"
+            placeholder="User Name must be short"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel>
+            Email address <span style={{ color: "red" }}>*</span>
+          </FormLabel>
           <Input
             type="email"
             placeholder="Enter your email address"
-            value={valueEmail}
-            onChange={(e) => setemailValue(e.target.value)}
+            value={Email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </FormControl>
 
         <FormControl mt={4}>
-          <FormLabel>Password <span style={{ color: "red" }}>*</span></FormLabel>
+          <FormLabel>
+            Password <span style={{ color: "red" }}>*</span>
+          </FormLabel>
           <Input
             type="password"
-            placeholder="Enter your password"
-            value={valuePassword}
-            onChange={(e) => setpasswordValue(e.target.value)}
+            placeholder="Password must be at least 5 characters"
+            value={Password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </FormControl>
+        <FormControl mt={4}>
+          <FormLabel>
+            Confirm Password <span style={{ color: "red" }}>*</span>
+          </FormLabel>
+          <Input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setconfirmPassword(e.target.value)}
           />
         </FormControl>
 
-        <Stack isInline justifyContent="space-between" mt={4}>
-          <Box>
-            <Checkbox>Remember Me</Checkbox>
-          </Box>
-          <Box>
-            <Link color={`${VARIANT_COLOR}.500`}>Forgot your password?</Link>
-          </Box>
-        </Stack>
-
-        <Button variantColor={VARIANT_COLOR} width="full" mt={4}>
-          Sign In
-        </Button>
+        <Link to="/Login"><Button variantColor={VARIANT_COLOR} width="full" mt={4}>
+          Register
+        </Button></Link>
       </form>
     </Box>
   );
 };
 
-export default Login;
+export default Register;
