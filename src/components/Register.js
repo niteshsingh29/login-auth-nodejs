@@ -9,16 +9,13 @@ import {
   IconButton,
   useColorMode,
   Heading,
-  Text,
   FormControl,
   FormLabel,
   Input,
-  Stack,
-  Checkbox,
   Button,
 } from "@chakra-ui/core";
-import { useState, useEffect } from "react";
-import {Link} from "react-router-dom"
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 const VARIANT_COLOR = "teal";
 
@@ -82,35 +79,38 @@ const RegisterForm = () => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
-  const [state, setState] = useState([]);
 
+  const url = "http://localhost:8000/register";
 
-  //   useEffect(() => {
-  //     axios
-  //       .post(url, {
-  //   Name:userName,
-  //         Email: Email,
-  //         Password: Password,
-  //   Confirm:confirmPassword
+  const handleSubmit = () => {
+    axios
+      .post(url, {
+        userName,
+        Email,
+        Password,
+        confirmPassword,
+      })
+      .then(() => {
+        console.log("data sent to backend api successfuly");
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+      setUserName("")
+      setEmail("")
+      setPassword("")
+      setconfirmPassword("")
+  };
 
-  //       })
-  //       .then(() => {
-  //         console.log("data sent to particular api successfuly");
-  //         setState()
-  //       })
-  //       .catch((err) => {
-  //         console.log(err.message);
-  //       });
-  //   }, []);
   return (
     <Box my={8} textAlign="left">
-      <form>
+      <form >
         <FormControl>
           <FormLabel>
             User Name <span style={{ color: "red" }}>*</span>
           </FormLabel>
           <Input
-            type="email"
+            type="name"
             placeholder="User Name must be short"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
@@ -151,9 +151,11 @@ const RegisterForm = () => {
           />
         </FormControl>
 
-        <Link to="/Login"><Button variantColor={VARIANT_COLOR} width="full" mt={4}>
-          Register
-        </Button></Link>
+        <Link to="/Login">
+          <Button variantColor={VARIANT_COLOR} width="full" mt={4} onClick={handleSubmit}>
+            Register
+          </Button>
+        </Link>
       </form>
     </Box>
   );
